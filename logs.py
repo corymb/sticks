@@ -13,7 +13,7 @@ class LogHandler(object):
     def __init__(self, location=None):
         self.location = location if location else os.environ.get(
             'ZNC_LOG_LOCATION', '.')
-        # logger.info('LogHandler location set to {}'.format(self.location))
+        logger.info('LogHandler location set to {}'.format(self.location))
 
     def get_logs_list(self):
         return sorted(
