@@ -6,7 +6,7 @@ from twisted.trial import unittest
 from logs import LogHandler
 
 TEST_LOG_FILE_METADATA = {
-    'total_length': 76,
+    'total_length': 56,
     'first_head': '[00:48:30] <asdf> _habnabit yes heartache is amazing',
     'second_head': '[04:10:55] <toddpratt> but the only way to diagnose '
     'it positively is via autopsy',
@@ -53,13 +53,28 @@ class LogHandlingTests(unittest.TestCase):
     def test_message_does_not_end_with_new_line(self):
         message_list = self.log_handler.get_message_list()
         for m in message_list:
-            self.assertFalse(m.endswith('\\n'))
+            message = self.log_handler.extract_message(m)
+            self.assertFalse(message.endswith(r'\n'))
 
     def test_get_message_list_order(self):
         message_list = self.log_handler.get_message_list()
         self.assertEqual(
             message_list[0], TEST_LOG_FILE_METADATA['first_head'])
         self.assertEqual(
-            message_list[25], TEST_LOG_FILE_METADATA['second_head'])
+            message_list[20], TEST_LOG_FILE_METADATA['second_head'])
         self.assertEqual(
-            message_list[51], TEST_LOG_FILE_METADATA['third_head'])
+            message_list[45], TEST_LOG_FILE_METADATA['third_head'])
+
+    def test_extract_time(self):
+        # Python regex matching is greedy:
+        time = self.log_handler.extract_time('[06:00:00][06:30:00]')
+        self.assertEqual(time, '[06:00:00]')
+
+    def test_extract_nick(self):
+        # Python regex matching is greedy:
+        nick = self.log_handler.extract_nick('<kosh><kosh>')
+        self.assertEqual(nick, '<kosh>')
+
+    def test_extract_message(self):
+        message = self.log_handler.extract_message(TEST_LOG_FILE_METADATA['first_head'])
+        self.assertEqual(message, TEST_LOG_FILE_METADATA['first_head'][18:])
