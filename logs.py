@@ -23,7 +23,7 @@ class LogHandler(object):
         for f in self.get_logs_list():
             with open(self.location + '/' + f) as log_file:
                 for line in log_file:
-                    if not '***' in line:
+                    if not '***' in line:  # Crapbuster.
                         message_list.append(
                             self.get_message_data(line))
         return message_list
@@ -38,8 +38,7 @@ class LogHandler(object):
         return re.search(r'>(.*)$', line).group(1).strip()
 
     def get_message_data(self, line):
-        return line.strip()
-        # time = self.extract_time(line)
-        # nick = self.extract_nick(line)
-        # message = self.extract_message(line)
-        # return Line(time, nick, message)
+        time = self.extract_time(line)
+        nick = self.extract_nick(line)
+        message = self.extract_message(line)
+        return Line(time, nick, message)
