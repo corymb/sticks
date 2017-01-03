@@ -51,7 +51,7 @@ class LogHandlingTests(unittest.TestCase):
             self.log_files))
 
     def test_get_message_list(self):
-        message_list = self.log_handler.get_message_list()
+        message_list = list(self.log_handler.get_messages())
         self.assertEqual(
             len(message_list), TEST_LOG_FILE_METADATA['total_length'])
 
@@ -61,7 +61,7 @@ class LogHandlingTests(unittest.TestCase):
         self.assertFalse(message.endswith(r'\n'))
 
     def test_get_message_list_order(self):
-        message_list = self.log_handler.get_message_list()
+        message_list = list(self.log_handler.get_messages())
         self.assertEqual(
             message_list[0].message, TEST_LOG_FILE_METADATA['first_head'])
         self.assertEqual(

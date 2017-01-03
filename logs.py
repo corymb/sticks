@@ -2,6 +2,7 @@ import os
 import re
 import logging
 from collections import namedtuple
+from itertools import chain
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -19,15 +20,15 @@ class LogHandler(object):
         return sorted(
             [f for f in os.listdir(self.location) if f.endswith('.log')])
 
-    def get_message_list(self):
+    def get_messages(self):
+        """
+        Returns itertools.chain of named tuples storing time, nick and message.
+        """
         message_list = []
         for f in self.get_logs_list():
             with open(self.location + '/' + f) as log_file:
-                for line in log_file:
-                    if '***' not in line:  # Crapbuster.
-                        message_list.append(
-                            self.get_message_data(line))
-        return message_list
+                message_list.append([self.get_message_data(l) for l in log_file if not '***' in l])
+        return chain.from_iterable(message_list)
 
     def extract_time(self, line):
         return re.search(r'\[.*?\]', line).group(0)
