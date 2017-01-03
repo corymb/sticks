@@ -52,7 +52,8 @@ class LogHandlingTests(unittest.TestCase):
             len(message_list), TEST_LOG_FILE_METADATA['total_length'])
 
     def test_message_does_not_end_with_new_line(self):
-        message = self.log_handler.extract_message(TEST_LOG_FILE_METADATA['full_example_line'])
+        message = self.log_handler.extract_message(
+            TEST_LOG_FILE_METADATA['full_example_line'])
         self.assertFalse(message.endswith(r'\n'))
 
     def test_get_message_list_order(self):
@@ -75,11 +76,14 @@ class LogHandlingTests(unittest.TestCase):
         self.assertEqual(nick, '<kosh>')
 
     def test_extract_message(self):
-        message = self.log_handler.extract_message(TEST_LOG_FILE_METADATA['full_example_line'])
-        self.assertEqual(message, TEST_LOG_FILE_METADATA['full_example_line'][23:])
+        message = self.log_handler.extract_message(
+            TEST_LOG_FILE_METADATA['full_example_line'])
+        self.assertEqual(
+            message, TEST_LOG_FILE_METADATA['full_example_line'][23:])
 
     def test_get_message_data(self):
-        line = self.log_handler.get_message_data(TEST_LOG_FILE_METADATA['full_example_line'])
+        line = self.log_handler.get_message_data(
+            TEST_LOG_FILE_METADATA['full_example_line'])
         self.assertEqual(line.time, '[04:12:13]')
         self.assertEqual(line.nick, '<toddpratt>')
         self.assertEqual(line.message, 'various head injuries')

@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 Line = namedtuple('Line', ('time', 'nick', 'message'))
 
+
 class LogHandler(object):
     def __init__(self, location=None):
         self.location = location if location else os.environ.get(
@@ -23,7 +24,7 @@ class LogHandler(object):
         for f in self.get_logs_list():
             with open(self.location + '/' + f) as log_file:
                 for line in log_file:
-                    if not '***' in line:  # Crapbuster.
+                    if '***' not in line:  # Crapbuster.
                         message_list.append(
                             self.get_message_data(line))
         return message_list
