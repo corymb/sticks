@@ -1,9 +1,13 @@
+import logging
 import os
+
 from test.test_support import EnvironmentVarGuard
 
 from twisted.trial import unittest
 
 from logs import LogHandler
+
+logging.disable(logging.CRITICAL)  # Keep stdout clean
 
 TEST_LOG_FILE_METADATA = {
     'total_length': 56,
