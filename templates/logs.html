@@ -1,0 +1,23 @@
+<html xmlns:t="http://twistedmatrix.com/ns/twisted.web.template/0.1">
+  <head>
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <title>Python-Offtopic</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1 class="text-center">Python-Offtopic</h1>
+        <ul>
+          <li t:render="log_messages">
+            <t:slot name="log_time"/>
+            <b><t:slot name="log_nick"/></b>
+            <t:slot name="log_message"/>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
+

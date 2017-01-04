@@ -40,14 +40,14 @@ class LogHandlingTests(unittest.TestCase):
         self.assertEqual(log_handler.location, '.')
 
     def test_files_listed(self):
-        self.assertItemsEqual(self.log_handler.get_logs_list(), self.log_files)
+        self.assertItemsEqual(self.log_handler._get_logs_list(), self.log_files)
 
     def test_only_log_files_listed(self):
-        for f in self.log_handler.get_logs_list():
+        for f in self.log_handler._get_logs_list():
             self.assertTrue(f.endswith('log'))
 
     def test_log_file_order(self):
-        self.assertItemsEqual(self.log_handler.get_logs_list(), sorted(
+        self.assertItemsEqual(self.log_handler._get_logs_list(), sorted(
             self.log_files))
 
     def test_get_message_list(self):
@@ -56,7 +56,7 @@ class LogHandlingTests(unittest.TestCase):
             len(message_list), TEST_LOG_FILE_METADATA['total_length'])
 
     def test_message_does_not_end_with_new_line(self):
-        message = self.log_handler.extract_message(
+        message = self.log_handler._extract_message(
             TEST_LOG_FILE_METADATA['full_example_line'])
         self.assertFalse(message.endswith(r'\n'))
 
@@ -71,22 +71,22 @@ class LogHandlingTests(unittest.TestCase):
 
     def test_extract_time(self):
         # Python regex matching is greedy:
-        time = self.log_handler.extract_time('[06:00:00][06:30:00]')
+        time = self.log_handler._extract_time('[06:00:00][06:30:00]')
         self.assertEqual(time, '[06:00:00]')
 
     def test_extract_nick(self):
         # Python regex matching is greedy:
-        nick = self.log_handler.extract_nick('<kosh><kosh>')
+        nick = self.log_handler._extract_nick('<kosh><kosh>')
         self.assertEqual(nick, '<kosh>')
 
     def test_extract_message(self):
-        message = self.log_handler.extract_message(
+        message = self.log_handler._extract_message(
             TEST_LOG_FILE_METADATA['full_example_line'])
         self.assertEqual(
             message, TEST_LOG_FILE_METADATA['full_example_line'][23:])
 
     def test_get_message_data(self):
-        line = self.log_handler.get_message_data(
+        line = self.log_handler._get_message_data(
             TEST_LOG_FILE_METADATA['full_example_line'])
         self.assertEqual(line.time, '[04:12:13]')
         self.assertEqual(line.nick, '<toddpratt>')
